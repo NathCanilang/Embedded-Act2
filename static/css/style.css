@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins";
+}
+
+#header-display {
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+  font-size: 50px;
+  padding-top: 50px;
+}
+
+#main-content-display {
+  margin: 200px 100px;
+}
+
+#sensor-data {
+  display: flex;
+  flex-direction: column;
+  float: right;
+}
