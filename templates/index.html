@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <link
       rel="stylesheet"
       type="text/css"
@@ -24,11 +23,16 @@
 
     <div id="main-content-display">
       <!--dito gagawa ng div para sa sensor chart-->
+      <div class="sensor-chart">
+        <canvas id="ultrasonic-chart"></canvas>
+      </div>
       <div id="sensor-data">
-        <a id="time-text" class="sensor-display"> LOREM IPSUM </a>
-        <a id="sensor-distance" class="sensor-display"> LOREM IPSUM: 100 cm </a>
+        <a id="time-text" class="sensor-display"></a>
+        <a id="sensor-distance" class="sensor-display"> Distance: </a>
         <a id="proximity-txt" class="sensor-display"> LOREM IPSUM: yes </a>
       </div>
     </div>
   </body>
+  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/chart.umd.min.js') }}"></script>
 </html>

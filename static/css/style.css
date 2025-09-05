@@ -14,11 +14,20 @@ body {
 }
 
 #main-content-display {
-  margin: 200px 100px;
+  display: flex;
+  margin: 200px 100px 0px 0px;
+  justify-content: center;
 }
 
 #sensor-data {
   display: flex;
   flex-direction: column;
-  float: right;
+  justify-content: center;
+  margin-left: 50px;
+  width: 200px;
+}
+
+#ultrasonic-chart {
+  width: 900px;
+  height: 500px;
 }
