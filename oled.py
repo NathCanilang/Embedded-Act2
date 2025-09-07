@@ -2,13 +2,13 @@ import board
 import busio
 import threading
 import time
-from adafruit_ssd1327 import SSD1327
+from adafruit_ssd1306  import SSD1306_I2C
 from PIL import Image, ImageDraw, ImageFont
 
 class OLEDDisplay:
     def __init__(self):
         self.i2c = busio.I2C(board.SCL, board.SDA)
-        self.display = SSD1327(self.i2c, width=128, height=128, addr=0x3D) #the address may change depending kung ano ang lalabas
+        self.display = SSD1306_I2C(self.i2c, width=128, height=64, addr=0x3C) #the address may change depending kung ano ang lalabas
         self.display.fill(0)
         self.display.show()
 
@@ -29,8 +29,8 @@ class OLEDDisplay:
 
         font = ImageFont.load_default()
 
-        draw.text((10, 10), f"Sensor 1 Value: {display_value_1}", font=font, fill=255)
-        draw.text((10, 30), f"Sensor 2 Value: {display_value_2}", font=font, fill=255)
+        draw.text((0, 0), f"Sensor 1 Value: {display_value_1}", font=font, fill=255)
+        draw.text((0, 16), f"Sensor 2 Value: {display_value_2}", font=font, fill=255)
 
         self.display.image(image)
         self.display.show()
