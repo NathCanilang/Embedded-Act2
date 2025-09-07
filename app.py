@@ -30,8 +30,11 @@ def index():
 
 @app.route('/get_distance')
 def get_distance():
-    data1 = random.randint(2, 400)
-    data2 = random.randint(2, 400)
+    #data1 = random.randint(2, 400)
+    #data2 = random.randint(2, 400)
+
+    data1 = u_sensor1.get_current_distance()
+    data2 = u_sensor2.get_current_distance()
 
     if data1 and data2:
         db.insert_data_sensor(data1, 1)
