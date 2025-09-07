@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
   const timeText = document.getElementById("time-text");
   const distanceText = document.getElementById("sensor-distance");
+  const sensor_canvas1 = document
+    .getElementById("sensor_chart1")
+    .getContext("2d");
+  const sensor_canvas2 = document
+    .getElementById("sensor_chart2")
+    .getContext("2d");
 
   function displayCurrentTime() {
     const currentTime = new Date();
@@ -18,8 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => console.log(`Error fetching data: ${error}`));
   }
 
-  const canvas = document.getElementById("ultrasonic-chart").getContext("2d");
-  const sensorLineChart = new Chart(canvas, {
+  const sensorLineChart = new Chart(sensor_canvas1, {
     type: "line",
     data: {
       label: [],
@@ -94,17 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
           const s2_distance = sensor2.distance;
           const s2_timestamp = sensor2.timestamp;
 
-          sensorLineChart.data.datasets[0].data.push({
-            x: s1_timestamp,
-            y: s1_distance,
-          });
-
-          sensorLineChart.data.datasets[1].data.push({
-            x: s2_timestamp,
-            y: s2_distance,
-          });
+          sensorLineChart.data.labels.push(s1_timestamp);
+          sensorLineChart.data.datasets[0].data.push(s1_distance);
+          sensorLineChart.data.datasets[1].data.push(s2_distance);
 
           if (sensorLineChart.data.labels.length > 8) {
+            sensorLineChart.data.labels.shift();
             sensorLineChart.data.datasets[0].data.shift();
             sensorLineChart.data.datasets[1].data.shift();
           }
