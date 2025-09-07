@@ -21,8 +21,8 @@ class OLEDDisplay:
 
         font = ImageFont.load_default()
 
-        draw.text((0, 0), f"Sensor 1 Value: {display_value_1}", font=font, fill=255)
-        draw.text((0, 16), f"Sensor 2 Value: {display_value_2}", font=font, fill=255)
+        draw.text((0, 0), f"Sensor 1 Value: {display_value_1} cm", font=font, fill=255)
+        draw.text((0, 16), f"Sensor 2 Value: {display_value_2} cm", font=font, fill=255)
 
         self.display.image(image)
         self.display.show()

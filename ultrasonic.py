@@ -15,7 +15,7 @@ class UltrasonicSensor:
         self.thread.start()
 
     def read_loop(self):
-        print("read has started")
+        print("ultrasonic sensor has started")
 
         while True:
             gpio.output(self.trigger_pin, True)
@@ -36,4 +36,4 @@ class UltrasonicSensor:
             time.sleep(0.1)
             
     def get_current_distance(self):
-        return self.curr_distance
+        return round(self.curr_distance, 3)

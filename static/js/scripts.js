@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
         distanceText1.textContent = `Sensor 1 Distance Reading = ${data.distance1} cm`;
         distanceText2.textContent = `Sensor 2 Distance Reading = ${data.distance2} cm`;
 
-        if (data.distance1 > 100 || data.distance2 > 100) {
+        //ito yung distance na sinabi sa libro
+        if (data.distance1 > 12 || data.distance2 > 12) {
           notif_bell.classList.add("shake");
           startBuzzer();
         } else {
