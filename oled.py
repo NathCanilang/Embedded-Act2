@@ -12,14 +12,8 @@ class OLEDDisplay:
         self.display.fill(0)
         self.display.show()
 
-        self.thread = threading.Thread(target=self.run_display, daemon=True)
-        self.thread.start()
-
-    def run_display(self):
-        while True:
-            self.display_distance(self.display_value_1, self.display_value_2)
-            time.sleep(0.5)  # update every half-second
-
+        self.display_value_1 = 0
+        self.display_value_2 = 0
 
     def display_distance(self, display_value_1, display_value_2):
         image = Image.new("1", (self.display.width, self.display.height))
