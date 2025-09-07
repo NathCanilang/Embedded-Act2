@@ -46,3 +46,6 @@ class UltrasonicSensor:
             self.curr_distance = (time_elapsed * 34300) / 2
 
             time.sleep(0.1)  # avoid flooding
+
+        def get_current_distance(self): 
+            return round(self.curr_distance, 2)
