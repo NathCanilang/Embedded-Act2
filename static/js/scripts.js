@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   const timeText = document.getElementById("time-text");
-  const distanceText = document.getElementById("sensor-distance");
+  const distanceText1 = document.getElementById("sensor1-distance");
+  const distanceText2 = document.getElementById("sensor2-distance");
+  const notif_bell = document.getElementById("buzzer-icon");
+
   const sensor_canvas1 = document
     .getElementById("sensor_chart1")
     .getContext("2d");
@@ -8,16 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("sensor_chart2")
     .getContext("2d");
 
-  const chart1 = new SensorChart(
-    sensor_canvas1,
-    "red",
-    "Sensor 1 Distance (cm)"
-  );
-  const chart2 = new SensorChart(
-    sensor_canvas2,
-    "blue",
-    "Sensor 2 Distance (cm)"
-  );
+  const chart1 = new SensorChart(sensor_canvas1, "red", "Sensor 1 Readings");
+  const chart2 = new SensorChart(sensor_canvas2, "blue", "Sensor 2 Readings");
 
   function displayCurrentTime() {
     const currentTime = new Date();
@@ -29,7 +24,13 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("/get_distance")
       .then((response) => response.json())
       .then((data) => {
-        distanceText.textContent = `Distance = ${data.distance1} cm`;
+        distanceText1.textContent = `Sensor 1 Distance Reading = ${data.distance1} cm`;
+        distanceText2.textContent = `Sensor 2 Distance Reading = ${data.distance2} cm`;
+
+        if (data.distance1 > 100 || data.distance2 > 100) {
+          notif_bell.classList.add("shake");
+        }
+
         displayChartData();
       })
       .catch((error) => console.log(`Error fetching data: ${error}`));
@@ -96,7 +97,7 @@ class SensorChart {
           },
           y: {
             type: "linear",
-            min: 12,
+            min: 0,
             max: 800,
             title: {
               display: true,

@@ -21,16 +21,31 @@
       <a>Ultrasonic Sensor Reading</a>
     </div>
 
-    <div id="main-content-display">
-      <a id="time-text" class="sensor-display"></a>
+    <div id="main-display">
+      <a id="time-text"></a>
 
-      <div class="sensor-chart">
-        <canvas id="sensor_chart1" class="ultrasonic-chart"></canvas>
-        <canvas id="sensor_chart2" class="ultrasonic-chart"></canvas>
-      </div>
-      <div id="sensor-data">
-        <a id="sensor-distance" class="sensor-display"> Distance: </a>
-        <a id="proximity-txt" class="sensor-display"> LOREM IPSUM: yes </a>
+      <div id="content-display">
+        <section id="chart-section">
+          <div class="sensor-sections">
+            <canvas id="sensor_chart1" class="ultrasonic-chart"></canvas>
+            <a id="sensor1-distance" class="sensor-display">
+              Distance Reading:
+            </a>
+          </div>
+
+          <div class="sensor-sections">
+            <canvas id="sensor_chart2" class="ultrasonic-chart"></canvas>
+            <a id="sensor2-distance" class="sensor-display">
+              Distance Reading:
+            </a>
+          </div>
+        </section>
+
+        <img
+          src="/static/assets/notif_pic.png"
+          alt="notifier-pic"
+          id="buzzer-icon"
+        />
       </div>
     </div>
   </body>
