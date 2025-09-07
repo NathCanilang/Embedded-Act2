@@ -8,6 +8,17 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("sensor_chart2")
     .getContext("2d");
 
+  const chart1 = new SensorChart(
+    sensor_canvas1,
+    "red",
+    "Sensor 1 Distance (cm)"
+  );
+  const chart2 = new SensorChart(
+    sensor_canvas2,
+    "blue",
+    "Sensor 2 Distance (cm)"
+  );
+
   function displayCurrentTime() {
     const currentTime = new Date();
     const formattedTime = currentTime.toLocaleTimeString();
@@ -18,68 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("/get_distance")
       .then((response) => response.json())
       .then((data) => {
-        distanceText.textContent = `Distance = ${data.distance} cm`;
+        distanceText.textContent = `Distance = ${data.distance1} cm`;
         displayChartData();
       })
       .catch((error) => console.log(`Error fetching data: ${error}`));
   }
-
-  const sensorLineChart = new Chart(sensor_canvas1, {
-    type: "line",
-    data: {
-      label: [],
-      datasets: [
-        {
-          label: "Sensor 1 Distance (cm)",
-          data: [],
-          borderColor: "blue",
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          fill: false,
-          tension: 0.1,
-          yAxisID: "yLeft",
-        },
-        {
-          label: "Sensor 2 Distance (cm)",
-          data: [],
-          borderColor: "red",
-          fill: false,
-          tension: 0.1,
-          yAxisID: "yRight",
-        },
-      ],
-    },
-    options: {
-      responsive: false,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: "Date and Time",
-          },
-        },
-        yLeft: {
-          type: "linear",
-          min: 12,
-          max: 800,
-          title: {
-            display: true,
-            text: "Distance (cm)",
-          },
-        },
-
-        yRight: {
-          type: "linear",
-          position: "right",
-          min: 12,
-          max: 800,
-          title: {
-            display: true,
-            text: "Distance (cm)",
-          },
-        },
-      },
-    },
-  });
 
   function displayChartData() {
     fetch("/get_data_from_db")
@@ -99,17 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
           const s2_distance = sensor2.distance;
           const s2_timestamp = sensor2.timestamp;
 
-          sensorLineChart.data.labels.push(s1_timestamp);
-          sensorLineChart.data.datasets[0].data.push(s1_distance);
-          sensorLineChart.data.datasets[1].data.push(s2_distance);
-
-          if (sensorLineChart.data.labels.length > 8) {
-            sensorLineChart.data.labels.shift();
-            sensorLineChart.data.datasets[0].data.shift();
-            sensorLineChart.data.datasets[1].data.shift();
-          }
-
-          sensorLineChart.update();
+          chart1.addData(s1_timestamp, s1_distance);
+          chart2.addData(s2_timestamp, s2_distance);
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
@@ -118,3 +63,57 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(displayCurrentTime, 1000);
   setInterval(displayDistance, 2000); //sinabi ito sa libro
 });
+
+class SensorChart {
+  constructor(canvas, color, sensorLabel) {
+    this.canvas = canvas;
+    this.color = color;
+    this.sensorLabel = sensorLabel;
+
+    this.sensorLineChart = new Chart(this.canvas, {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: this.sensorLabel,
+            data: [],
+            borderColor: this.color,
+            backgroundColor: "rgba(255, 99, 132, 0.2)",
+            fill: false,
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        responsive: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Date and Time",
+            },
+          },
+          y: {
+            type: "linear",
+            min: 12,
+            max: 800,
+            title: {
+              display: true,
+              text: "Distance (cm)",
+            },
+          },
+        },
+      },
+    });
+  }
+  addData(label, value) {
+    this.sensorLineChart.data.labels.push(label);
+    this.sensorLineChart.data.datasets[0].data.push(value);
+    if (this.sensorLineChart.data.labels.length > 8) {
+      this.sensorLineChart.data.labels.shift();
+      this.sensorLineChart.data.datasets[0].data.shift();
+    }
+    this.sensorLineChart.update();
+  }
+}

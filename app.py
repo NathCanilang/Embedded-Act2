@@ -20,26 +20,14 @@ def get_distance():
         db.insert_data_sensor(data2, 2)
 
         return jsonify({
-            "distance" : data1
+            "distance1" : data1,
+            "distance2" : data2
         }), 200
     
     else:
         return jsonify({
             "Error" : "Error reading distance from sensor" 
         }), 500
-    
-    '''
-@app.route('/save_distance', methods=['POST'])
-def save_distance():
-    data = request.get_json()
-
-    if not data:
-        return jsonify({"error": "No data received"}), 400
-    else:
-        distance = data.get("distance")
-        db.insert_data_sensor(distance)
-        return jsonify({"status": "success", "received": distance}), 200
-        '''
     
 @app.route('/get_data_from_db')
 def get_data_from_db():
@@ -59,8 +47,6 @@ def get_data_from_db():
         return jsonify({"error": "Data Error"}), 405
 
 
-
-        
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
