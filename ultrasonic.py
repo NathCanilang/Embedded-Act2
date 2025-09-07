@@ -19,8 +19,7 @@ class UltrasonicSensor:
 
         while True:
             gpio.output(self.trigger_pin, True)
-
-            time.sleep(0.1)
+            time.sleep(0.00001)
             gpio.output(self.trigger_pin, False)
 
             start_time = time.time()
@@ -34,6 +33,7 @@ class UltrasonicSensor:
 
             time_elapsed = stop_time - start_time 
             self.curr_distance = (time_elapsed *34300) / 2
-
+            time.sleep(0.1)
+            
     def get_current_distance(self):
         return self.curr_distance
