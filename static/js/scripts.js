@@ -29,9 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (data.distance1 > 100 || data.distance2 > 100) {
           notif_bell.classList.add("shake");
+          startBuzzer();
+        } else {
+          notif_bell.classList.remove("shake");
+          stopBuzzer();
         }
 
         displayChartData();
+        displayDistanceToOLED(data.distance1, data.distance2);
       })
       .catch((error) => console.log(`Error fetching data: ${error}`));
   }
@@ -59,6 +64,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => console.error("Error fetching data:", error));
+  }
+
+  function displayDistanceToOLED(distance1, distance2) {
+    fetch("/display_sensor_values_oled", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ distance1: distance1, distance2: distance2 }),
+    });
+  }
+
+  function startBuzzer() {
+    fetch("/start_buzzer", { method: "POST" })
+      .then((response) => response.json())
+      .then((data) => console.log(data.status))
+      .catch((err) => console.error("Error:", err));
+  }
+
+  function stopBuzzer() {
+    fetch("/stop_buzzer", { method: "POST" })
+      .then((response) => response.json())
+      .then((data) => console.log(data.status))
+      .catch((err) => console.error("Error:", err));
   }
 
   setInterval(displayCurrentTime, 1000);

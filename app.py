@@ -70,11 +70,11 @@ def display_sensor_values_oled():
 
     if not data:
         return jsonify({"Error": "No values received" }), 400
-    
-    s1_distance = data.get("distance1")
-    s2_distance = data.get("distance2")
-    oled.display_distance(s1_distance, s2_distance)
-    return jsonify({"Success":"Values Received"}), 201
+    else:
+        s1_distance = data.get("distance1")
+        s2_distance = data.get("distance2")
+        oled.display_distance(s1_distance, s2_distance)
+        return jsonify({"Success":"Values Received"}), 201
 
 @app.route('/start_buzzer', methods=["POST"])
 def start_buzzer():
