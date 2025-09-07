@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementById("ultrasonic-chart").getContext("2d");
   const sensorLineChart = new Chart(canvas, {
     type: "line",
-    labels: [],
     data: {
+      label: [],
       datasets: [
         {
           label: "Sensor 1 Distance (cm)",
@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
             display: true,
             text: "Distance (cm)",
           },
-          beginAtZero: true,
         },
 
         yRight: {
@@ -72,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
             display: true,
             text: "Distance (cm)",
           },
-          beginAtZero: true,
         },
       },
     },
