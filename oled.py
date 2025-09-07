@@ -12,8 +12,6 @@ class OLEDDisplay:
         self.display.fill(0)
         self.display.show()
 
-        self.display_value_1 = 0
-        self.display_value_2 = 0
         self.thread = threading.Thread(target=self.run_display, daemon=True)
         self.thread.start()
 
