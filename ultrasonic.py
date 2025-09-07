@@ -36,4 +36,4 @@ class UltrasonicSensor:
             time.sleep(0.1)
             
     def get_current_distance(self):
-        return round(self.curr_distance, 3)
+        return round(self.curr_distance, 2)
