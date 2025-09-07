@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw, ImageFont
 class OLEDDisplay:
     def __init__(self):
         self.i2c = busio.I2C(board.SCL, board.SDA)
-        self.display = SSD1306_I2C(self.i2c, width=128, height=64, addr=0x3C) #the address may change depending kung ano ang lalabas
+        self.display = SSD1306_I2C(128, 64, self.i2c, addr=0x3C)
         self.display.fill(0)
         self.display.show()
 
