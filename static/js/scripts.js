@@ -127,7 +127,7 @@ class SensorChart {
           y: {
             type: "linear",
             min: 0,
-            max: 800,
+            max: 300,
             title: {
               display: true,
               text: "Distance (cm)",
