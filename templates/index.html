@@ -21,33 +21,65 @@
       <a>Ultrasonic Sensor Reading</a>
     </div>
 
-    <div id="main-display">
-      <a id="time-text"></a>
-
-      <div id="content-display">
-        <section id="chart-section">
-          <div class="sensor-sections">
+    <section class="whole-page">
+      <div id="main-display">
+        <a id="time-text"></a>
+        <div id="content-display">
+          <div class="chart-container">
             <canvas id="sensor_chart1" class="ultrasonic-chart"></canvas>
-            <a id="sensor1-distance" class="sensor-display">
-              Distance Reading:
-            </a>
+            <canvas id="sensor_chart2" class="ultrasonic-chart" hidden></canvas>
           </div>
 
-          <div class="sensor-sections">
-            <canvas id="sensor_chart2" class="ultrasonic-chart"></canvas>
-            <a id="sensor2-distance" class="sensor-display">
-              Distance Reading:
-            </a>
+          <div class="info-container">
+            <div id="sensor1-distance" class="sensor-display">
+              <span class="label">Sensor 1</span>
+              <span class="sub">Distance Reading</span>
+              <span class="value">0 cm</span>
+            </div>
+            <div id="sensor2-distance" class="sensor-display">
+              <span class="label">Sensor 2</span>
+              <span class="sub">Distance Reading</span>
+              <span class="value">0 cm</span>
+            </div>
+            <img
+              src="/static/assets/notif_pic.png"
+              alt="notifier-pic"
+              id="buzzer-icon"
+            />
           </div>
-        </section>
-
-        <img
-          src="/static/assets/notif_pic.png"
-          alt="notifier-pic"
-          id="buzzer-icon"
-        />
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="Dht11chart">
+      <div class="dht-display">
+        <div class="chart-container">
+          <canvas id="temp_chart" class="dht-chart"></canvas>
+        </div>
+
+        <div class="info-container">
+          <div class="sensor-display temp-box">
+            <!--   <span class="label">Temperature</span> -->
+            <span class="sub">Current Reading</span>
+            <span id="temperature-text" class="value">--°C</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dht-display">
+        <div class="chart-container">
+          <canvas id="humidity_chart" class="dht-chart"></canvas>
+        </div>
+
+        <div class="info-container">
+          <div class="sensor-display humid-box">
+            <!--  <span class="label">Humidity</span> -->
+            <span class="sub">Current Reading</span>
+            <span id="humidity-text" class="value">--%</span>
+          </div>
+        </div>
+      </div>
+    </section>
   </body>
   <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
   <script src="{{ url_for('static', filename='js/chart.umd.min.js') }}"></script>
