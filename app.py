@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from database import SensorDatabase 
 import random
+import atexit
 
 #comment this imports to run the website without sensors
 from ultrasonic import UltrasonicSensor
@@ -137,6 +138,19 @@ def start_buzzer():
 def stop_buzzer():
     buzzer.stop()
     return jsonify({"status": "buzzer stopped"})
+
+def cleanup():
+    # Add cleanup methods for each sensor/controller
+    try:
+        u_sensor1.cleanup()
+        u_sensor2.cleanup()
+        oled.cleanup()
+        buzzer.cleanup()
+        dht11.cleanup()
+    except Exception as e:
+        print(f"Cleanup error: {e}")
+
+atexit.register(cleanup)
 
 if __name__ == '__main__':
     with app.app_context():

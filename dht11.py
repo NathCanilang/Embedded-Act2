@@ -67,3 +67,10 @@ class DHT11_Data:
         reading = self.readings[last_index]
         print(f"Returning reading from index {last_index}: {reading.temperature}C, {reading.humidity}%")
         return reading
+    
+    def cleanup(self):
+        # Signal the thread to stop and release the sensor
+        self._stop_thread = True
+        if self.thread.is_alive():
+            self.thread.join(timeout=2)
+        self.dht11.exit()

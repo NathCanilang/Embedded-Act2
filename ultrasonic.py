@@ -7,7 +7,7 @@ class UltrasonicSensor:
         self.trigger_pin = trigger_pin
         self.echo_pin = echo_pin
         self.curr_distance = 0
-        
+        self._stop_thread = False
         gpio.setmode(gpio.BCM)
         gpio.setup(self.trigger_pin, gpio.OUT)
         gpio.setup(self.echo_pin, gpio.IN)
@@ -15,7 +15,7 @@ class UltrasonicSensor:
         self.thread.start()
 
     def read_loop(self):
-        while True:
+        while not self._stop_thread:
             # Send 10µs pulse
             gpio.output(self.trigger_pin, True)
             time.sleep(0.00001)
@@ -49,3 +49,10 @@ class UltrasonicSensor:
 
     def get_current_distance(self): 
         return round(self.curr_distance, 2)
+    
+    def cleanup(self):
+        self._stop_thread = True
+        if self.thread.is_alive():
+            self.thread.join(timeout=2)
+        gpio.cleanup(self.trigger_pin)
+        gpio.cleanup(self.echo_pin)

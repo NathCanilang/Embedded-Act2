@@ -37,3 +37,11 @@ class OLEDDisplay:
         draw.text((0, 48), f"Sensor 2 Value: {humid}%", font=font, fill=255)
 
         self.display.image(image)
+        self.display.show()
+
+    def cleanup(self):
+        # Clear the display and release I2C resources
+        self.display.fill(0)
+        self.display.show()
+        if self.i2c.try_lock():
+            self.i2c.unlock()
