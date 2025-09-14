@@ -3,9 +3,9 @@ from database import SensorDatabase
 import random
 
 #comment this imports to run the website without sensors
-from ultrasonic import UltrasonicSensor
-from oled import OLEDDisplay
-from buzzer import BuzzerController
+#from ultrasonic import UltrasonicSensor
+#from oled import OLEDDisplay
+#from buzzer import BuzzerController
 
 app = Flask(__name__)
 db = SensorDatabase()
@@ -19,23 +19,68 @@ s2_trig_pin = 5
 s2_echo_pin = 6
 #comment this code to run the website without sensors
 #also comment the display_sensor_values_oled code to run the site without sensors
-u_sensor1 = UltrasonicSensor(s1_trig_pin, s1_echo_pin)
+""" u_sensor1 = UltrasonicSensor(s1_trig_pin, s1_echo_pin)
 u_sensor2 = UltrasonicSensor(s2_trig_pin, s2_echo_pin)
 oled = OLEDDisplay()
-buzzer = BuzzerController()
+buzzer = BuzzerController() """
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@app.route('/get_temp_and_humid')
+def get_temp_and_humid():
+
+    data1 = random.randint(0, 40)
+    data2 = random.randint(0, 100)
+
+    # data = db.get_latest_dht11()
+    if data1 and data2:
+        db.insert_data_dht11 (data1,data2)
+    
+        return jsonify({
+            "temperature": data1,
+            "humidity": data2
+        }), 200
+    else:
+        return jsonify({
+            "Error": "Error reading temperature and humidity from sensor"
+        }), 500
+
+@app.route('/get_temperature_data_from_db')
+def get_temperature_data_from_db():
+    row = db.get_latest_dht11()
+    if row:
+        reading = {
+            "id": row[0],
+            "temperature": row[1],
+            "humidity": row[2],
+            "timestamp": row[3]
+        }
+        return jsonify(reading)
+    else:
+        return jsonify({}), 200
+
+@app.route('/display_temp_humid_values_oled', methods = ["POST"])
+def display_temp_humid_values_oled():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"Error": "No values received" }), 400
+    else:
+        temp = data.get("temp")
+        humid = data.get("humid")
+        #oled.display_temp_and_humid(temp, humid)
+        return jsonify({"Success":"Values Received"}), 201
+    
+
 @app.route('/get_distance')
 def get_distance():
-    #data1 = random.randint(2, 400)
-    #data2 = random.randint(2, 400)
+    data1 = random.randint(2, 400)
+    data2 = random.randint(2, 400)
 
-    data1 = u_sensor1.get_current_distance()
-    data2 = u_sensor2.get_current_distance()
-    print(f"Distance1 value: {data1}, Distance2 value: {data2}")
+    #data1 = u_sensor1.get_current_distance()
+    #data2 = u_sensor2.get_current_distance()
 
     if data1 and data2:
         db.insert_data_sensor(data1, 1)
@@ -51,8 +96,8 @@ def get_distance():
             "Error" : "Error reading distance from sensor" 
         }), 500
     
-@app.route('/get_data_from_db')
-def get_data_from_db():
+@app.route('/get_distance_data_from_db')
+def get_distance_data_from_db():
     sensor_data = db.get_latest_distance()
     data = []
     if sensor_data:
@@ -68,6 +113,7 @@ def get_data_from_db():
     else:
         return jsonify({"error": "Data Error"}), 405
     
+
 @app.route('/display_sensor_values_oled', methods = ["POST"])
 def display_sensor_values_oled():
     data = request.get_json()
@@ -77,10 +123,10 @@ def display_sensor_values_oled():
     else:
         s1_distance = data.get("distance1")
         s2_distance = data.get("distance2")
-        oled.display_distance(s1_distance, s2_distance)
+        #oled.display_distance(s1_distance, s2_distance)
         return jsonify({"Success":"Values Received"}), 201
-
-@app.route('/start_buzzer', methods=["POST"])
+    
+""" @app.route('/start_buzzer', methods=["POST"])
 def start_buzzer():
     buzzer.start()
     return jsonify({"status": "buzzer started"})
@@ -88,9 +134,12 @@ def start_buzzer():
 @app.route('/stop_buzzer', methods=["POST"])
 def stop_buzzer():
     buzzer.stop()
-    return jsonify({"status": "buzzer stopped"})
+    return jsonify({"status": "buzzer stopped"}) """
 
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
+
+    

@@ -13,6 +13,13 @@ body {
   padding-top: 50px;
 }
 
+.whole-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 #main-display {
   display: flex;
   justify-content: center;
@@ -24,8 +31,13 @@ body {
 
 #content-display {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+}
+.chart-container {
+  flex: 2;
 }
 
 #sensor-data {
@@ -36,34 +48,54 @@ body {
   width: 200px;
 }
 
-#buzzer-icon {
-  width: 150px;
-  height: 200px;
-}
-
 .ultrasonic-chart {
-  width: 600px;
-  height: 300px;
+  width: 100% !important;
+  height: 500px !important;
+  margin-bottom: 20px;
 }
-
 .sensor-sections {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: right;
+  align-items: right;
   gap: 10px;
 }
 
-.sensor-display {
+.info-container {
+  flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  width: 100px;
+}
+
+.sensor-display {
+  display: block;
+  font-weight: 500;
+  margin-top: 10px;
+  font-size: 20px;
+  color: #0077cc;
+  background-color: #f0f8ff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #0077cc;
   width: 200px;
-  height: 100px;
+  text-wrap: inherit;
 }
 
 #time-text {
   font-size: 30px;
   font-weight: bold;
+}
+
+#buzzer-icon {
+  width: 120px;
+  height: auto;
+  margin-top: 20px;
+  margin-left: 50px;
 }
 @keyframes shake {
   0% {
@@ -104,4 +136,50 @@ body {
 /* Class to activate shake */
 .shake {
   animation: shake 0.5s infinite;
+}
+
+/* FOR DHT11 */
+
+.Dht11chart {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.dht-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.dht-chart {
+  width: 100% !important;
+  height: 500px !important;
+  margin-bottom: 20px;
+}
+
+.temp-box {
+  margin-top: 30px;
+  color: #cc5200;
+  background-color: #fff3e6;
+  border: 1px solid #cc5200;
+  width: 210px;
+  font-size: 18px;
+}
+
+.humid-box {
+  margin-top: 30px;
+  color: #006600;
+  background-color: #e6ffe6;
+  border: 1px solid #006600;
+  width: 210px;
+  font-size: 18px;
 }
