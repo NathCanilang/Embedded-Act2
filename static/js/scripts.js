@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const distanceText1 = document.getElementById("sensor1-distance");
   const distanceText2 = document.getElementById("sensor2-distance");
   const notif_bell = document.getElementById("buzzer-icon");
+  const tempText = document.getElementById("temperature-text");
+  const humidText = document.getElementById("humidity-text");
 
   const temp_canvas = document.getElementById("temp_chart").getContext("2d");
   const humidity_canvas = document
@@ -44,30 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => console.log(`Error fetching data: ${error}`));
   }
 
-  function displayTempAndHumidity() {
-    fetch("/get_tempandhumid")
-      .then((response) => response.json())
-      .then((data) => {
-        // Update text elements
-        document.getElementById(
-          "temperature-text"
-        ).textContent = `Temperature = ${data.temperature} °C`;
-        document.getElementById(
-          "humidity-text"
-        ).textContent = `Humidity = ${data.humidity} %`;
-
-        // Add data to charts
-        const now = new Date().toLocaleTimeString();
-        tempChart.addData(now, data.temperature);
-        humidityChart.addData(now, data.humidity);
-      })
-      .catch((error) =>
-        console.error(`Error fetching temp/humidity: ${error}`)
-      );
-  }
-
   function displayChartData() {
-    fetch("/get_data_from_db")
+    fetch("/get_distance_data_from_db")
       .then((response) => response.json())
       .then((data) => {
         if (!data) return;
@@ -91,23 +71,40 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function displayTempAndHumidity() {
-    fetch("/get_tempandhumid")
+    fetch("/get_temp_and_humid")
       .then((response) => response.json())
       .then((data) => {
-        // ✅ Update text elements
-        document.getElementById(
-          "temperature-text"
-        ).textContent = `Temperature = ${data.temperature} °C`;
-        document.getElementById(
-          "humidity-text"
-        ).textContent = `Humidity = ${data.humidity} %`;
+        // Update text elements
+        tempText.textContent = `Temperature = ${data.temperature} °C`;
+        humidText.textContent = `Humidity = ${data.humidity} %`;
 
-        // ✅ Add data to charts
-        const now = new Date().toLocaleTimeString();
-        tempChart.addData(now, data.temperature);
-        humidityChart.addData(now, data.humidity);
+        displayTempAndHumidityChart();
+        displayTempAndHumidToOled(data.temperature, data.humidity);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) =>
+        console.error(`Error fetching temp/humidity: ${error}`)
+      );
+  }
+
+  function displayTempAndHumidityChart() {
+    fetch("/get_temperature_data_from_db")
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data) return;
+        tempChart.addData(data.timestamp, data.temperature);
+        humidityChart.addData(data.timestamp, data.humidity);
+      })
+      .catch((error) =>
+        console.error(`Error fetching temp/humidity: ${error}`)
+      );
+  }
+
+  function displayTempAndHumidToOled(temp, humid) {
+    fetch("/display_temp_humid_values_oled", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ temp, humid }),
+    });
   }
 
   setInterval(displayCurrentTime, 1000);

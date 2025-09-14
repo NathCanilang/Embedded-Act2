@@ -18,7 +18,7 @@ class SensorDatabase:
                         timestamp DATETIME NOT NULL DEFAULT (datetime(CURRENT_TIMESTAMP, '+8 hours')),
                         sensor_count INTEGER NOT NULL
                     )  
-                     """)
+                    """)
         cur.execute("""
                     CREATE TABLE IF NOT EXISTS dht11_sensor (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,10 +28,6 @@ class SensorDatabase:
                     )   """)
         con.commit()
         con.close()
-
-        
-
-
 
     #sensor count will only be one or two
     def insert_data_sensor(self, distance, sensor_count):
@@ -61,8 +57,6 @@ class SensorDatabase:
         rows = cur.fetchall()        
         con.close()
         return rows
-
-
 
     def insert_data_dht11(self, temperature, humidity):
         con = self.get_connection()
