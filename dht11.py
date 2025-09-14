@@ -11,7 +11,6 @@ class Sensor_Data:
         self.temperature = temperature
         self.humidity = humidity
 
-
 class DHT11_Data:
     _instance = None  # singleton instance
 

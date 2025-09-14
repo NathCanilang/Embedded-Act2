@@ -36,8 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
         //ito yung distance na sinabi sa libro
         if (data.distance1 > 12 || data.distance2 > 12) {
           notif_bell.classList.add("shake");
+          startBuzzer();
         } else {
           notif_bell.classList.remove("shake");
+          stopBuzzer();
         }
 
         displayChartData();
@@ -105,6 +107,20 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ temp, humid }),
     });
+  }
+
+  function startBuzzer() {
+    fetch("/start_buzzer", { method: "POST" })
+      .then((response) => response.json())
+      .then((data) => console.log(data.status))
+      .catch((err) => console.error("Error:", err));
+  }
+
+  function stopBuzzer() {
+    fetch("/stop_buzzer", { method: "POST" })
+      .then((response) => response.json())
+      .then((data) => console.log(data.status))
+      .catch((err) => console.error("Error:", err));
   }
 
   setInterval(displayCurrentTime, 1000);
