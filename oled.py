@@ -27,18 +27,6 @@ class OLEDDisplay:
         self.display.image(image)
         self.display.show()
 
-    def display_temp_and_humid(self, temp, humid):
-        image = Image.new("1", (self.display.width, self.display.height))
-        draw = ImageDraw.Draw(image)
-
-        font = ImageFont.load_default()
-
-        draw.text((0, 32), f"Sensor 1 Value: {temp} °C", font=font, fill=255)
-        draw.text((0, 48), f"Sensor 2 Value: {humid}%", font=font, fill=255)
-
-        self.display.image(image)
-        self.display.show()
-
     def cleanup(self):
         # Clear the display and release I2C resources
         self.display.fill(0)

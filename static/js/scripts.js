@@ -81,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
         humidText.textContent = `Humidity = ${data.humidity} %`;
 
         displayTempAndHumidityChart();
-        //displayTempAndHumidToOled(data.temperature, data.humidity);
       })
       .catch((error) =>
         console.error(`Error fetching temp/humidity: ${error}`)
@@ -99,14 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) =>
         console.error(`Error fetching temp/humidity: ${error}`)
       );
-  }
-
-  function displayTempAndHumidToOled(temp, humid) {
-    fetch("/display_temp_humid_values_oled", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ temp, humid }),
-    });
   }
 
   function startBuzzer() {

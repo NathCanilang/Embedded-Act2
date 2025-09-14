@@ -64,18 +64,6 @@ def get_temperature_data_from_db():
     else:
         return jsonify({}), 200
 
-@app.route('/display_temp_humid_values_oled', methods = ["POST"])
-def display_temp_humid_values_oled():
-    data = request.get_json()
-
-    if not data:
-        return jsonify({"Error": "No values received" }), 400
-    else:
-        temp = data.get("temp")
-        humid = data.get("humid")
-        oled.display_temp_and_humid(temp, humid)
-        return jsonify({"Success":"Values Received"}), 201
-    
 
 @app.route('/get_distance')
 def get_distance():
