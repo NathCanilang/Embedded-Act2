@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
         humidText.textContent = `Humidity = ${data.humidity} %`;
 
         displayTempAndHumidityChart();
-        displayTempAndHumidToOled(data.temperature, data.humidity);
+        //displayTempAndHumidToOled(data.temperature, data.humidity);
       })
       .catch((error) =>
         console.error(`Error fetching temp/humidity: ${error}`)
